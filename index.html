@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>评论文本分词处理</title>
+</head>
+
+<body>
+    <div id="wrap">Loading...</div>
+    <script src="scripts/lib/axios.min.js"></script>
+    <script src="scripts/require.js"></script>
+    <script src="scripts/main.js"></script>
+    <script>
+        // 分词库加载完成
+        let sliceWord = function() {
+            axios.get('./comments.json').then(d => {
+                console.log(d);
+                let data = d.data.data.comments;
+                let targetArr = [];
+                // for (let i = 0; i < data.length; i++) {
+                for (let i = 0; i < 3; i++) {
+                    let c = data[i].comment;
+                    let res = jiebaCut(c);
+                    targetArr.push({
+                        data: res,
+                        text: c
+                    });
+                }
+                // console.log(targetArr);
+                let obj = {
+                    data: targetArr
+                }
+                document.getElementById('wrap').innerHTML = JSON.stringify(obj);
+            })
+        }
+    </script>
+</body>
+
+</html>
